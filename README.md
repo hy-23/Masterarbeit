@@ -1,5 +1,8 @@
 # Masterarbeit
 Master thesis repository of Harsha Yogeshappa, RWTH Aachen University.
+
+**Branches**: *main* and *master* are the two branches that are exact copy of one another; like a backup, just in case, if one of these branches gets messed up.
+
 ```
 ├───Official_Documents                                # All the official documents (including application and confimration).
 └───Resources                                         # All files gathered across internet that might be relevant for thesis.
