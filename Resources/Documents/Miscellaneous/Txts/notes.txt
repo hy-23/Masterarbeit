@@ -1,0 +1,168 @@
+_____________________
+Mandatory checklists:
+---------------------
+
+1. In neural networks, it's often great to work in the ranges of [0, 1] or [-1, 1] or around there.
+2. Always plot your data with colorbars, which helps you catch issues before training.
+3. Some of the most popular models like to have inputs that are sized as multiples of 2^N for N being the number of layers.
+	- Here, we force our images to be size 32 (2x 2^4).
+
+----------------------------------------------------------------------------
+https://machinelearningmastery.com/gradient-descent-for-machine-learning/
+----------------------------------------------------------------------------
+	1. Optimization is a big part of machine learning.
+	2. Gradient descent is a simple optimization procedure that you can use with many machine learning algorithms.
+	3. Batch gradient descent refers to calculating the derivative from all training data before calculating an update.
+	4. Stochastic gradient descent refers to calculating the derivative from each training data instance and calculating the update immediately.
+
+1. One cycle through the entire training dataset is called a training epoch.
+2. Commonly, batch gradient descent is implemented in such a way that it requires the entire training dataset in memory and available to the algorithm.
+3. Mini-batch gradient descent seeks to find a balance between the robustness of stochastic gradient descent and the efficiency of batch gradient descent.
+
+---------------------------------------------------------------------------------------------------------
+https://machinelearningmastery.com/gentle-introduction-mini-batch-gradient-descent-configure-batch-size/
+---------------------------------------------------------------------------------------------------------
+	1. Refer to the papers mentioned at the end of this post.
+	2. Papers have been downloaded.
+
+1. The number of epochs := is a hyperparameter that defines the number times that the learning algorithm will work through the entire training dataset.
+	a. You can think of a for-loop over the number of epochs where each loop proceeds over the training dataset.
+	b. Within this for-loop is another nested for-loop that iterates over each batch of samples, where one batch has the specified “batch size” number of samples.
+	c. The number of epochs is traditionally large, often hundreds or thousands, allowing the learning algorithm to run until the error from the model has been sufficiently minimized.
+		c.a. You may see examples of the number of epochs in the literature and in tutorials set to 10, 100, 500, 1000, and larger.
+
+	d. Learning curve is a plot of epochs vs error.
+
+------------------------------------------------------------------------------------------------------
+Learning Curve:
+https://machinelearningmastery.com/learning-curves-for-diagnosing-machine-learning-model-performance/
+------------------------------------------------------------------------------------------------------
+
+1. Learning curves are plots that show changes in learning performance over time in terms of experience.
+2. Learning curves of model performance on the train and validation datasets can be used to diagnose an underfit, overfit, or well-fit model.
+3. Learning curves of model performance can be used to diagnose whether the train or validation datasets are not relatively representative of the problem domain.
+
+-----------------------
+Train Learning Curve: |
+-----------------------
+	Learning curve calculated from the training dataset that gives an idea of how well the model is learning.
+----------------------------
+Validation Learning Curve: |
+----------------------------
+	Learning curve calculated from a hold-out validation dataset that gives an idea of how well the model is generalizing.
+
+-------------------------------
+Optimization Learning Curves: |
+-------------------------------
+	Learning curves calculated on the metric by which the parameters of the model are being optimized, e.g. loss.
+------------------------------
+Performance Learning Curves: |
+------------------------------
+	Learning curves calculated on the metric by which the model will be evaluated and selected, e.g. accuracy.
+
+
+Underfitting:
+--------------
+1. The training loss remains flat regardless of training.
+2. The training loss continues to decrease until the end of training i.e., the training was stopped prematurely.
+
+Overfitting:
+-------------
+1. The plot of training loss continues to decrease with experience.
+2. The plot of validation loss decreases to a point and begins increasing again.
+
+.*. The inflection point in validation loss may be the point at which training could be halted as experience after that point shows the dynamics of overfitting.
+
+--------------------
+Generalization Gap:
+--------------------
+1. The loss of the model will almost always be lower on the training dataset than the validation dataset.
+2. This means that we should expect some gap between the train and validation loss learning curves.
+	2.1. This gap is referred to as the “generalization gap.”
+					    ______________________
+
+Goodfit:
+---------
+1. The plot of training loss decreases to a point of stability.
+2. The plot of validation loss decreases to a point of stability and has a small gap with the training loss.
+
+	.*. Continued training of a good fit will likely lead to an overfit.
+
+
+Unrepresentative Dataset
+-------------------------
+1. Unrepresentative Training Dataset.
+
+	An unrepresentative training dataset means that the training dataset does not provide sufficient information to learn the problem, relative to the validation dataset used to evaluate it.
+
+	This may occur if the training dataset has too few examples as compared to the validation dataset.	
+	
+	This situation can be identified by:
+		(a). A learning curve for training loss that shows improvement, and
+		(b). Similarly a learning curve for validation loss that shows improvement, but a large gap remains between both curves.
+
+2. Unrepresentative Validation Dataset.
+
+	An unrepresentative validation dataset means that the validation dataset does not provide sufficient information to evaluate the ability of the model to generalize.
+
+	This may occur if the validation dataset has too few examples as compared to the training dataset.
+
+	This situation can be identified by:
+		(a). A learning curve for training loss that looks like a good fit (or other fits), and
+		(b). A learning curve for validation loss that shows noisy movements around the training loss.
+	It may also be identified by:
+		(a). A validation loss that is lower than the training loss.
+		In this case, it indicates that the validation dataset may be easier for the model to predict than the training dataset.
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+A deep learning neural network learns to map a set of inputs to a set of outputs from training data.
+	- We cannot calculate the perfect weights for a neural network; there are too many unknowns. Instead, the problem of learning is cast as a search or optimization problem and an algorithm is used to navigate the space of possible sets of weights the model may use in order to make good or good enough predictions.
+
+The “gradient” in gradient descent refers to gradient of error function.
+	- The model with a given set of weights is used to make predictions and the error for those predictions is calculated.
+
+Machine learning is essentially a form of applied statistics with increased emphasis on the use of computers to statistically estimate complicated functions and a decreased emphasis on proving confidence intervals around these functions; we therefore present the two central approaches to statistics: frequentist  estimators and Bayesian inference.
+	- Page 98, Deep Learning, Ian Goodfellow.
+
+Most deep learning algorithms are based on an optimization algorithm called stochastic gradient descent.
+	- Page 98, Deep Learning, Ian Goodfellow.
+
+Usually this performance measure P is specific to the task T being carried out by the system.
+	- Page 103, Deep Learning, Ian Goodfellow.
+
+A dataset can be described in many ways. In all cases, a dataset is a collection of examples, which are in turn collections of features.
+	- Page 106, Deep Learning, Ian Goodfellow.
+
+Section 9.7 and chapter 10 describe how to handle different types of such heterogeneous data. 
+	- Page 106, Deep Learning, Ian Goodfellow.
+
+What separates machine learning from optimization is that we want the generalization error, also called the test error, to be low as well. The generalization error is defined as the expected value of the error on a new input.
+		- Here the expectation is taken across different possible inputs, drawn from the distribution of inputs we expect the system to encounter in practice.
+	- Page 110, Deep Learning, Ian Goodfellow.
+
+The train and test data are generated by a probability distribution over datasets called the data generating process. We typically make a set of assumptions known collectively as the i.i.d. assumptions. These assumptions are that the examples in each dataset are independent from each other, and that the train set and test set are identically distributed, drawn from the same probability distribution as each other.
+	- Page 111, Deep Learning, Ian Goodfellow.
+
+One immediate connection we can observe between the training and test error is that the expected training error of a randomly selected model is equal to the expected test error of that model.
+	- Page 111, Deep Learning, Ian Goodfellow.
+
+y' = w1.x + b:
+	- mapping from parameters to prediction is still a linear function.
+	- mapping from features to prediction is now an affine function.
+	- Page 109, Deep Learning, Ian Goodfellow.
+
+y' = w1.x + w2.x^2 + b:
+	- prediction is still a linear function of parameters.
+	- mapping from features to prediction is now a quadratic function.
+	- Page 112, Deep Learning, Ian Goodfellow.
+
+We can control whether a model is more likely to overfit or underfit by altering its capacity.
+	- Page 111, Deep Learning, Ian Goodfellow.
+
+The error incurred by an oracle making predictions from the true distribution p(x, y) is called the Bayes error.
+	- Page 116, Deep Learning, Ian Goodfellow.
+
+
+
+

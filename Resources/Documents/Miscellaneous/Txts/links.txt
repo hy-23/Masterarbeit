@@ -1,0 +1,2 @@
+Google Cloud on multiple object detection.
+https://cloud.google.com/vision/docs/object-localizer#:~:text=Object%20localization%20identifies%20multiple%20objects,image%20that%20contains%20the%20object.

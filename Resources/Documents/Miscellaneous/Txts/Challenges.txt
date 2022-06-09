@@ -1,0 +1,10 @@
+Priliminary Thesis Challenges:
+
+1. Load dataset to disk.
+2. Load dataset from cloud?
+3. Train the model using your own dataset on the local disk.
+4. Enable caching and prefetch.
+
+1. Voxelmorph with landmarks instead of segmentation.
+
+1. How to incorporate our own activation function?

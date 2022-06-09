@@ -1,0 +1,10 @@
+As promised, here are some links that you might find interesting:
+ 
+Voxelmorph (code, tutorial, links to the papers):
+https://github.com/voxelmorph/voxelmorph
+ 
+larvalign:
+https://pubmed.ncbi.nlm.nih.gov/29127664/  (paper)
+https://github.com/larvalign/larvalign (code and a part of the image stacks used in the paper)
+ 
+If you should have any question or idea regarding the project, just let me know!
