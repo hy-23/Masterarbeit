@@ -1,0 +1,24 @@
+Q1. Voxelmorph is already an image registration paper. How would our paper be unique to publish it as a paper on its own? All we are doing is to train the network on new images. Isn't it?
+
+Q2. How to ensure that the images we are receiving from a lab form the same distribution?
+    "The parameters of the network, i.e. the convolutional kernel weights, can be optimized using only a training set of volumes from the dataset of interest. The procedure learns a common representation that enables alignment of a new pair of volumes from the same distribution."
+        - Voxelmorph paper.
+
+
+Q3. What are Diffeomorphic transformations? Is this different from Elastix transformations?
+    "Diffeomorphic transforms model φ through the integral of a velocity vector field, preserving topology and maintaining invertibility on the transformation [9]."
+        - Voxelmorph paper.
+
+Q4. Papers to read 40, 41, {42}, [43], [44]; [] - segmentation driven; {} - spatial transformation network.
+
+Q5. In Voxelmorph paper, all the image samples have the same dimensions. Should we also ensure that? Or, should we make the network more robust to random image dimensions?
+
+Q6. " Indeed, the resulting deformation can be interpreted as simply an approximation or initialization to the optimal deformation φ, and the resulting difference is sometimes referred to as the amortization gap [15], [66]".
+        If the actual result depend on the initialization of the deformation field then would it make sense to train the network in a supervised fashion to learn the network parameters, and then use it for unsupervised methods?
+        
+
+
+
+
+
+
