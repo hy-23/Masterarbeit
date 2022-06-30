@@ -6,7 +6,7 @@ All the zip files in the directory are extracted and saved in their own respecti
 The source zip files are retained as it is.
 
 Parameters:
-    file_path: Is a directory that contains the zip files to be extracted.
+    file_path <str>: Is a directory that contains the zip files to be extracted.
     
 Author: Harsha Yogeshappa, M.Script
 Version: 1.0
@@ -19,7 +19,7 @@ import time
 
 # parse the commandline
 parser = argparse.ArgumentParser()
-parser.add_argument('--file-path', required=True, help='path for the zip files')
+parser.add_argument('--file-path', type=str, required=True, help='path for the zip files')
 args = parser.parse_args()
 
 # list everything in the path; both directories and files.
