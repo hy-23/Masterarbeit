@@ -8,14 +8,13 @@ The source zip files are retained as it is.
 Parameters:
     file_path <str>: Is a directory that contains the zip files to be extracted.
     
-Author: Harsha Yogeshappa, M.Script
+Author: Harsha Yogeshappa, M.Sc
 Version: 1.0
 """
 
 import os
 import zipfile
 import argparse
-import time
 
 # parse the commandline
 parser = argparse.ArgumentParser()
