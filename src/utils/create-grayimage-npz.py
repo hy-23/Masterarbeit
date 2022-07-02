@@ -1,15 +1,15 @@
 #! python
 
 """
-Script to create .npz files out of multichanneled .tif files.
+Script to create a single channel .npz files out of single channel .tif files.
 Read the tif metadata to extract width, height, and the channels in each slice of the image.
-The npz files are stored in the same folder as the tif files are.
+The values are normalized between 0.0 and 1.0, and the npz files are stored in the same folder as the tif files are.
 
 Parameters:
     file_path <str>: Is a directory.
     
 Author: Harsha Yogeshappa, M.Sc
-Version: 1.0
+
 """
 import os
 import argparse
@@ -48,12 +48,12 @@ for f in folders:
         below line of code works only for multichanneled images.
         i.e., no_of_channels exists.
         '''
-        height, width, no_of_channels   = np.shape(im)
-        frames                          = im.n_frames
-        im_array                        = np.zeros((height, width, no_of_channels, frames))
+        height, width   = np.shape(im)
+        frames          = im.n_frames
+        im_array        = np.zeros((height, width, frames))
         
         for slice_idx in range(frames):
             im.seek(slice_idx)
-            im_array[:,:,:, slice_idx] = np.array(im)
-        np_array = im_array.astype(np.uint8)
+            im_array[:, :, slice_idx] = np.array(im)
+        np_array = im_array / 255.0
         np.savez(dst, vol=np_array)

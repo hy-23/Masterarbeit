@@ -1,0 +1,14 @@
+D:\Harsha\Masterarbeit\larvalign_data\DataSetGoodQual\brain\scaled\brain0\np_brain0_scaled.npz
+D:\Harsha\Masterarbeit\larvalign_data\DataSetGoodQual\brain\scaled\brain1\np_brain1_scaled.npz
+D:\Harsha\Masterarbeit\larvalign_data\DataSetGoodQual\brain\scaled\brain2\np_brain2_scaled.npz
+D:\Harsha\Masterarbeit\larvalign_data\DataSetGoodQual\brain\scaled\brain3\np_brain3_scaled.npz
+D:\Harsha\Masterarbeit\larvalign_data\DataSetGoodQual\brain\scaled\brain4\np_brain4_scaled.npz
+D:\Harsha\Masterarbeit\larvalign_data\DataSetGoodQual\brain\scaled\brain5\np_brain5_scaled.npz
+D:\Harsha\Masterarbeit\larvalign_data\DataSetGoodQual\brain\scaled\brain6\np_brain6_scaled.npz
+D:\Harsha\Masterarbeit\larvalign_data\DataSetGoodQual\brain\scaled\brain7\np_brain7_scaled.npz
+D:\Harsha\Masterarbeit\larvalign_data\DataSetGoodQual\brain\scaled\brain10\np_brain10_scaled.npz
+D:\Harsha\Masterarbeit\larvalign_data\DataSetGoodQual\brain\scaled\brain11\np_brain11_scaled.npz
+D:\Harsha\Masterarbeit\larvalign_data\DataSetGoodQual\brain\scaled\brain12\np_brain12_scaled.npz
+D:\Harsha\Masterarbeit\larvalign_data\DataSetGoodQual\brain\scaled\brain13\np_brain13_scaled.npz
+D:\Harsha\Masterarbeit\larvalign_data\DataSetGoodQual\brain\scaled\brain14\np_brain14_scaled.npz
+D:\Harsha\Masterarbeit\larvalign_data\DataSetGoodQual\brain\scaled\brain15\np_brain15_scaled.npz
