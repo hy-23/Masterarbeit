@@ -1,4 +1,4 @@
-#!/home/student/yogeshappa/miniconda3/bin python3
+#!/home/student/yogeshappa/miniconda3/bin/python3
 '''
 Script reads the given csv file and plots a graph for every column against column_0 : 'epoch'.
 
