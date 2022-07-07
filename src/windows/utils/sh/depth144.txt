@@ -1,0 +1,78 @@
+open("D:\\Harsha\\Masterarbeit\\larvalign_data\\DataSetGoodQual\\brain\\brain9.tif");
+run("Split Channels");
+close();
+selectWindow("C2-brain9.tif");
+close();
+selectWindow("C1-brain9.tif");
+run("Scale...", "x=- y=- z=- width=512 height=1024 depth=144 interpolation=Bicubic average process create title=np_brain9_scaled.tif");
+run("Properties...", "channels=1 slices=144 frames=1 unit=\u00B5m pixel_width=0.4566360 pixel_height=0.4566360 voxel_depth=2.0000000");
+run("Save", "save=D:\\Harsha\\Masterarbeit\\larvalign_data\\DataSetGoodQual\\brain\\np_brain9_scaled.tif");
+close();
+selectWindow("C1-brain9.tif");
+close();
+
+open("D:\\Harsha\\Masterarbeit\\larvalign_data\\DataSetGoodQual\\brain\\brain10.tif");
+run("Split Channels");
+close();
+selectWindow("C2-brain10.tif");
+close();
+selectWindow("C1-brain10.tif");
+run("Scale...", "x=- y=- z=- width=512 height=1024 depth=144 interpolation=Bicubic average process create title=np_brain10_scaled.tif");
+run("Properties...", "channels=1 slices=144 frames=1 unit=\u00B5m pixel_width=0.4566360 pixel_height=0.4566360 voxel_depth=2.0000000");
+run("Save", "save=D:\\Harsha\\Masterarbeit\\larvalign_data\\DataSetGoodQual\\brain\\np_brain10_scaled.tif");
+close();
+selectWindow("C1-brain10.tif");
+close();
+
+open("D:\\Harsha\\Masterarbeit\\larvalign_data\\DataSetGoodQual\\brain\\brain16.tif");
+run("Split Channels");
+close();
+selectWindow("C2-brain16.tif");
+close();
+selectWindow("C1-brain16.tif");
+run("Scale...", "x=- y=- z=- width=512 height=1024 depth=144 interpolation=Bicubic average process create title=np_brain16_scaled.tif");
+run("Properties...", "channels=1 slices=144 frames=1 unit=\u00B5m pixel_width=0.4566360 pixel_height=0.4566360 voxel_depth=2.0000000");
+run("Save", "save=D:\\Harsha\\Masterarbeit\\larvalign_data\\DataSetGoodQual\\brain\\np_brain16_scaled.tif");
+close();
+selectWindow("C1-brain16.tif");
+close();
+
+open("D:\\Harsha\\Masterarbeit\\larvalign_data\\DataSetGoodQual\\brain\\brain17.tif");
+run("Split Channels");
+close();
+selectWindow("C2-brain17.tif");
+close();
+selectWindow("C1-brain17.tif");
+run("Scale...", "x=- y=- z=- width=512 height=1024 depth=144 interpolation=Bicubic average process create title=np_brain17_scaled.tif");
+run("Properties...", "channels=1 slices=144 frames=1 unit=\u00B5m pixel_width=0.4566360 pixel_height=0.4566360 voxel_depth=2.0000000");
+run("Save", "save=D:\\Harsha\\Masterarbeit\\larvalign_data\\DataSetGoodQual\\brain\\np_brain17_scaled.tif");
+close();
+selectWindow("C1-brain17.tif");
+close();
+
+open("D:\\Harsha\\Masterarbeit\\larvalign_data\\DataSetGoodQual\\brain\\brain18.tif");
+run("Split Channels");
+close();
+selectWindow("C2-brain18.tif");
+close();
+selectWindow("C1-brain18.tif");
+run("Scale...", "x=- y=- z=- width=512 height=1024 depth=144 interpolation=Bicubic average process create title=np_brain18_scaled.tif");
+run("Properties...", "channels=1 slices=144 frames=1 unit=\u00B5m pixel_width=0.4566360 pixel_height=0.4566360 voxel_depth=2.0000000");
+run("Save", "save=D:\\Harsha\\Masterarbeit\\larvalign_data\\DataSetGoodQual\\brain\\np_brain18_scaled.tif");
+close();
+selectWindow("C1-brain18.tif");
+close();
+
+open("D:\\Harsha\\Masterarbeit\\larvalign_data\\DataSetGoodQual\\brain\\brain19.tif");
+run("Split Channels");
+close();
+selectWindow("C2-brain19.tif");
+close();
+selectWindow("C1-brain19.tif");
+run("Scale...", "x=- y=- z=- width=512 height=1024 depth=144 interpolation=Bicubic average process create title=np_brain19_scaled.tif");
+run("Properties...", "channels=1 slices=144 frames=1 unit=\u00B5m pixel_width=0.4566360 pixel_height=0.4566360 voxel_depth=2.0000000");
+run("Save", "save=D:\\Harsha\\Masterarbeit\\larvalign_data\\DataSetGoodQual\\brain\\np_brain19_scaled.tif");
+close();
+selectWindow("C1-brain19.tif");
+close();
+
