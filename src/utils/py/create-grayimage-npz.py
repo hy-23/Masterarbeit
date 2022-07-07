@@ -22,38 +22,30 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--file-path', type=str, required=True, help='root directory that holds folders containing tif files.')
 args = parser.parse_args()
 
+src_file_path = args.file_path
 # list everything in the path; both directories and files.
-dirlist = os.listdir(args.file_path)
+dirlist = os.listdir(src_file_path)
+  
+# list of tif files in the src_file_path
+tif_file = [tif for tif in dirlist if (os.path.isfile(os.path.join(src_file_path, tif)) and tif.endswith('.tif'))]
 
-# Of all the directories and files, filter only directories
-folders = [file for file in dirlist if (os.path.isdir(os.path.join(args.file_path, file)))]
-
-for f in folders:
+for file_idx in range(len(tif_file)):
+    src = os.path.join(src_file_path, tif_file[file_idx])
+    dst = src.replace('.tif', '.npz')
+    im = Image.open(src)
+        
+    # read tiff-file metadata
+        
     '''
-    f are only directories
+    below line of code works only for multichanneled images.
+    i.e., no_of_channels exists.
     '''
-    src_file_path = os.path.join(args.file_path, f)
-    sub_dirlist = os.listdir(src_file_path)
-    
-    # list of tif files in the src_file_path
-    tif_file = [tif for tif in sub_dirlist if (os.path.isfile(os.path.join(src_file_path, tif)) and tif.endswith('.tif'))]
-    for file_idx in range(len(tif_file)):
-        src = os.path.join(src_file_path, tif_file[file_idx])
-        dst = src.replace('.tif', '.npz')
-        im = Image.open(src)
+    height, width   = np.shape(im)
+    frames          = im.n_frames
+    im_array        = np.zeros((height, width, frames))
         
-        # read tiff-file metadata
-        
-        '''
-        below line of code works only for multichanneled images.
-        i.e., no_of_channels exists.
-        '''
-        height, width   = np.shape(im)
-        frames          = im.n_frames
-        im_array        = np.zeros((height, width, frames))
-        
-        for slice_idx in range(frames):
-            im.seek(slice_idx)
-            im_array[:, :, slice_idx] = np.array(im)
-        np_array = im_array / 255.0
-        np.savez(dst, vol=np_array)
+    for slice_idx in range(frames):
+        im.seek(slice_idx)
+        im_array[:, :, slice_idx] = np.array(im)
+    np_array = im_array / 255.0
+    np.savez(dst, vol=np_array)
