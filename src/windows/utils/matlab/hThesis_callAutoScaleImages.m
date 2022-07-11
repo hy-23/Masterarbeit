@@ -7,7 +7,7 @@
 
 function hThesis_callAutoScaleImages(width, height, slices, ...
                                      pixelwidth, pixelheight, voxeldepth)
-fileId = fopen('D:\Harsha\repo\Masterarbeit\dataset\larvalign_data-affine_registered\DataSetGoodQual\list.txt', 'r');
+fileId = fopen('I:\masterarbeit_dataset\larvalign_data-affine_registered\DataSetRandomQual\list.txt', 'r');
 fileList = {};
 fileCount = 0;
 tline = fgetl(fileId);

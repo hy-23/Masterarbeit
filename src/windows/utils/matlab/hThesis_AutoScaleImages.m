@@ -21,6 +21,7 @@ stmt6 = 'close();';
 stmt7 = ['selectWindow("C3-' scanID '");'];
 stmt8 = ['run("Scale...", "x=- y=- z=- width=' int2str(width) ' height=' int2str(height) ' depth=' int2str(slices) ' interpolation=Bicubic average process create title=np_' name '_scaled.tif");'];
 stmt9 = ['run("Properties...", "channels=1 slices=' int2str(slices) ' frames=1 unit=mm pixel_width=' num2str(pixel_width) ' pixel_height=' num2str(pixel_height) ' voxel_depth=' num2str(voxel_depth) '");'];
+[filepath, name, ext] = fileparts(filepath);
 stmt10 = ['run("Save", "save=' filepath '\' 'np_' name '_scaled.tif");'];
 stmt11 = 'close();';
 stmt12 = ['selectWindow("C3-' scanID '");'];
