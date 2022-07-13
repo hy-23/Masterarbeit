@@ -1,0 +1,9 @@
+1. The new data that are about to come shall be inhomogeneous; the condition and the setup used to record every data are not consistent.
+2. NP, NT, and GE channels are jumbled up: care should be taken to choose the NP channel for registration.
+3. The data with the new microscope is so different/bad that the "larvalign" registration is failing.
+4. Variability in resolution.
+5. There are different datasets like "Genelia" for e.g.
+6. Initially, we will club all of them into one training set and see the result.
+7. Based on it, maybe, we might have to construct a different network for different datasets.
+	- This is something that cannot be commented on, in general. It needs to be verified through experiments.
+8. Where to place landmarks and how to place or who shall place them shall be decided in the next meeting.
