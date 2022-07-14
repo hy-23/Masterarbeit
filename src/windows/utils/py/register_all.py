@@ -17,27 +17,30 @@ parser.add_argument('--warp', help='output warp deformation filename')
 parser.add_argument('--out-path', required=True, help='moved image (target) save directory')
 args = parser.parse_args()
 
+
 predict_files = vxm.py.utils.read_file_list(args.file_list)
 assert len(predict_files) > 0, 'Could not find any data.'
 
+add_feat_axis = not args.multichannel
+# load fixed image.
+fixed, fixed_affine = vxm.py.utils.load_volfile(
+    args.fixed, add_batch_axis=True, add_feat_axis=add_feat_axis, ret_affine=True)
+print('Harsha, fixed volfile is loaded.')
 
 for i in range(len(predict_files)):
     # tensorflow device handling
     device, nb_devices = vxm.tf.utils.setup_device(args.gpu)
+    print("Harsha, device name: {}".format(device))    
     
-    # load moving and fixed images
-    add_feat_axis = not args.multichannel
+    # load moving images
     moving = vxm.py.utils.load_volfile(predict_files[i], add_batch_axis=True, add_feat_axis=add_feat_axis)
     print('Harsha, moving volfile is loaded.')
-    fixed, fixed_affine = vxm.py.utils.load_volfile(
-        args.fixed, add_batch_axis=True, add_feat_axis=add_feat_axis, ret_affine=True)
-    print('Harsha, fixed volfile is loaded.')
+
     inshape = moving.shape[1:-1]
     nb_feats = moving.shape[-1]
     
     t0 = time.time()
     with tf.device(device):
-        print("Harsha, device name: {}".format(device))
         # load model and predict
         config = dict(inshape=inshape, input_model=None)
         warp = vxm.networks.VxmDense.load(args.model, **config).register(moving, fixed)
@@ -60,3 +63,4 @@ for i in range(len(predict_files)):
     # save moved image
     vxm.py.utils.save_volfile(moved.squeeze(), moved_file, fixed_affine)
     print('Harsha, saving moved image.')
+    print('############################################')
