@@ -4,7 +4,7 @@
 %% Author: Harsha Yogeshappa
 %%
 
-function hThesis_AutoScaleImages(filename, width, height, slices, ...
+function autoScaleImages(filename, width, height, slices, ...
                                  pixel_width, pixel_height, voxel_depth)
 
 % variables

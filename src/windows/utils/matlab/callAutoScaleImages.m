@@ -5,7 +5,7 @@
 %% Author: Harsha Yogeshappa
 %%
 
-function hThesis_callAutoScaleImages(width, height, slices, ...
+function callAutoScaleImages(width, height, slices, ...
                                      pixelwidth, pixelheight, voxeldepth)
 fileId = fopen('I:\masterarbeit_dataset\larvalign_data-affine_registered\DataSetRandomQual\list.txt', 'r');
 fileList = {};
