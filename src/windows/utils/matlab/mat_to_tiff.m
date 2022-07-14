@@ -4,7 +4,7 @@
 %%
 %% Author: Harsha Yogeshappa
 %%
-function hThesis_mat_to_tiff(mat_var, filename)
+function mat_to_tiff(mat_var, filename)
 warning('off','MATLAB:MKDIR:DirectoryExists');
 
 out = 'I:\tensorflow_out\out\matlab';
