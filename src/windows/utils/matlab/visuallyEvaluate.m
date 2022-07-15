@@ -1,4 +1,5 @@
 function visuallyEvaluate()
+warning('off','MATLAB:MKDIR:DirectoryExists');
 
 %%
 % Assumption:
@@ -6,11 +7,13 @@ function visuallyEvaluate()
 % All the voxelmorph registered data are in the folder: vxm_filepath.
 
 %%
-vxm_filepath = 'I:\tensorflow_out\out\matlab\Max_Projection_Voxelmorph'; % voxelmorph registered filepath.
-lrv_filepath = 'D:\Harsha\Files_Hiwi\Output\RegisteredScans\TIFF\Max_Projection_Larvalign'; % larva registered filepath.
-mov_filepath = 'I:\masterarbeit_dataset\data\tif\Max_Projection'; % moving  file's filepath.
-str_filepath = 'I:\tensorflow_out\out\matlab\imshowpair'; % storage file's filepath.
-tar_filepath = 'I:\masterarbeit_dataset\atlas'; % target  file's filepath.
+vxm_filepath = 'Y:\masterarbeit_results\results\vxm_lrv_res1.0\vxm_registered\mip'; % voxelmorph registered filepath.
+lrv_filepath = 'Y:\masterarbeit_results\results\vxm_lrv_res1.0\lrv_registered\mip'; % larva registered filepath.
+mov_filepath = 'I:\masterarbeit_dataset\data\mip'; % moving  file's filepath.
+str_filepath = 'Y:\masterarbeit_results\results\vxm_lrv_res1.0\imshowpair'; % storage file's filepath.
+tar_filepath = 'I:\masterarbeit_dataset\atlas\mip'; % target  file's filepath.
+
+mkdir(str_filepath);
 
 tar_img = imread([tar_filepath '\' 'MAX_np_atlas_scaled.tif']);
 vxm_search_pfx = 'MAX_moved_';

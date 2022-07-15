@@ -7,6 +7,11 @@
 
 function callAutoScaleImages(width, height, slices, ...
                                      pixelwidth, pixelheight, voxeldepth)
+
+% pixelwidth = 0.4566360;
+% pixelheight = 0.4566360;
+% voxeldepth = 2.0000000;
+
 fileId = fopen('I:\masterarbeit_dataset\larvalign_data-affine_registered\DataSetRandomQual\list.txt', 'r');
 fileList = {};
 fileCount = 0;
@@ -21,6 +26,6 @@ end
 
 for i = 1 : fileCount
     filename = fileList{i};
-    hThesis_AutoScaleImages(filename, width, height, slices, pixelwidth, pixelheight, voxeldepth);
+    autoScaleImages(filename, width, height, slices, pixelwidth, pixelheight, voxeldepth);
 end
 end
