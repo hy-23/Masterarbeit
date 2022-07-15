@@ -65,18 +65,15 @@ Master thesis repository of Harsha Yogeshappa, RWTH Aachen University.
 - **Step2: Perform auto scaling to required dimensions using `callAutoScaleImages.m`**
     1. Once the zip files are extracted and folders are available, use the matlab script `callAutoScaleImages.m` to generate macro for Fiji to output a scaled version of the affine aligned tiff images.
 - **Step3: Voxelmorph need npz files.**
-    1. Use the python script, `create-npz.py`, available in "masterarbeit" repository ('D:\Harsha\repo\Masterarbeit\src\windows\utils\py') to obtain npz files from tif files. **Note:** The values are scaled down between 0.0 and 1.0 as per voxelmorph's requirement.
+    1. Use the python script, `create-npz.py`, available in "masterarbeit" repository ('D:\Harsha\repo\Masterarbeit\src\windows\utils\py') to obtain npz files from the scaled tif files.
+    2. **Note:** 
+        - It is scaled tif files that we are interested in. So, we need to convert these scaled tif files to npz.
+        - The values are scaled down between 0.0 and 1.0 as per voxelmorph's requirement.
 - **Step4: Once all the npz files are available, prepare a list with the full paths of the images.**
     1. Store the list in the following directory as '/home/students/yogeshappa/repo/Masterarbeit/src/linux/list.txt'
 - **Step5: Train the voxelmorph network using the below command.**
     ```py
-    /home/students/yogeshappa/miniconda3/bin/python3 /home/students/yogeshappa/repo/Masterarbeit/voxelmorph/scripts/tf/train.py
-    --img-list /home/students/yogeshappa/repo/Masterarbeit/src/linux/list.txt
-    --atlas /home/students/yogeshappa/repo/Masterarbeit/dataset/atlas/np_atlas_scaled.npz
-    --model-dir /work/scratch/yogeshappa/tensorflow_out/model
-    --epochs 500
-    --steps-per-epoch 66
-
+    /home/students/yogeshappa/miniconda3/bin/python3 /home/students/yogeshappa/repo/Masterarbeit/voxelmorph/scripts/tf/train.py --img-list /home/students/yogeshappa/repo/Masterarbeit/src/linux/list.txt --atlas /home/students/yogeshappa/repo/Masterarbeit/dataset/atlas/np_atlas_scaled.npz --model-dir /work/scratch/yogeshappa/tensorflow_out/model --epochs 500 --steps-per-epoch 66
     # steps_per_epoch = len(training_data) / batch_size.
     # len(training_data) = 66.
     ```
@@ -87,13 +84,16 @@ Master thesis repository of Harsha Yogeshappa, RWTH Aachen University.
         - This file contains a list with the full paths of the images that need to be nonlinear registered in the atlas.
         - The result is stored as a zip file in the <output directory>/RegisteredScans/TIFF/
         - Use the python script, `extract-zip.py`, available in "masterarbeit" repository ('D:\Harsha\repo\Masterarbeit\src\windows\utils\py') to extract zip files to folders.
-        - Perform **Step2** for getting folders out of zip files.
 - **Step7: Perform nonlinear registration using trained model weights.**
     1. Use the python script, `register_all.py`, available in "masterarbeit" repository ('D:\Harsha\repo\Masterarbeit\src\windows\utils\py') to extract zip files to folders to register all the images.
-    2. In the following directory, "I:\masterarbeit_dataset\data", you must find a text file named "voxelmorph_list.txt". Use this to pass to `register_all.py` to give the list with the full paths of the images.
+    2. In the following directory, "I:\masterarbeit_dataset\data", you must find a text file named "voxelmorph_list.txt". Use this to tell `register_all.py` to give the list with the full paths of the images that needs to be aligned.
+    3. In any case, if you need to perform single prediction then use the below command.
+    ```py
+    D:\Harsha\repo\Masterarbeit\voxelmorph\scripts\tf\register.py --moving I:\masterarbeit_dataset\data\npz\np_brain3_scaled.npz --fixed I:\masterarbeit_dataset\atlas\np_atlas_scaled.npz --moved I:\tensorflow_out\out\moved.npz --model I:\tensorflow_out\model\0223.h5 --gpu 0
+    ```
 - **Step8: Voxelmorph provides npz files as output.**
     1. Use the python script, `convert-npz-to-mat-all.py`, available in "masterarbeit" repository ('D:\Harsha\repo\Masterarbeit\src\windows\utils\py') to convert all npz files into mat files.
-        - The python script expects the path of the file where all npz files are present.
+        - The python script expects the path of the file where all npz files are present not a list like other scripts.
         - The result is stored in the same directory.
     2. Use matlab script, `mat_to_tiff.m`, to convert all .mat variables into a .tif file.
 - **Step9: Maximum Intensity Projection for tif files**
