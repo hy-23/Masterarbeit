@@ -13,6 +13,7 @@ for dirIdx = 3:len_dir
     else
         if(endsWith(file_or_folder, '.tif'))
             % is a tif file, so call max_projection
+            fprintf("tif file: %s\n", file_or_folder);
             mip_zprojection(file_or_folder);
         else
             % any other file
