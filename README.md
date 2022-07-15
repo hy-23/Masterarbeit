@@ -2,7 +2,58 @@
 Master thesis repository of Harsha Yogeshappa, RWTH Aachen University.
 
 ## Folder heirarchy
-
+```
+├───docs
+│   ├───Official_Documents                                # All the official documents (including application and confimration).
+│   └───Resource_Documents                                # All files gathered across internet that might be relevant for thesis.
+│       ├───Books
+│       │   ├───PyTorch
+│       │   ├───SciPy_and_NumPy
+│       │   └───TensorFlow
+│       ├───Documents                                     # Documents found to be useful.
+│       │   ├───Keynote                                   # Key points and the references .
+│       │   ├───Machine_Learning_Mastery                  # Materials from machinelearningmastery.com
+│       │   │   └───Figures
+│       │   ├───Miscellaneous                             # Files that cannot be specifically categorized.
+│       │   │   ├───Images
+│       │   │   ├───Pdfs
+│       │   │   ├───Txts
+│       │   │   └───Xlsx
+│       │   └───TensorFlow                                # Files related to TensorFlow.
+│       ├───Google_Colab_Programs
+│       ├───Latex_Tutorial                                # Tutorial to write a latex file.
+│       ├───Research_Papers                               # Research Papers.
+│       │   └───Finished
+│       └───Thesis_Reports                                # Thesis reports of friends and acquaintances.
+│           ├───Bharath
+│           └───Muddasser
+├───presentations                                         # slides and resources for md file.
+│   ├───13.07.2022
+│   ├───resources
+│   └───Template
+├───src                                                   # utility scripts for windows and linux platforms.
+│   ├───linux
+│   │   └───utils
+│   │       ├───py
+│   │       └───sh
+│   └───windows
+│       └───utils
+│           ├───matlab
+│           ├───py
+│           └───sh
+└───voxelmorph                                             # Voxelmorph submodule.
+    ├───.github
+    │   └───ISSUE_TEMPLATE
+    ├───data
+    ├───scripts
+    │   ├───tf
+    │   └───torch
+    └───voxelmorph
+        ├───py
+        ├───tf
+        │   └───utils
+        └───torch
+```
 
 ## Get the pipeline running.
 - **Step1: Perform affine registration using `larvalign_affine` branch on git.**
