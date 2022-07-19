@@ -1,8 +1,12 @@
 function traverse_and_find_tif(rootpath)
+warning('off','MATLAB:MKDIR:DirectoryExists');
 % rootpath should be a folder.
 
 dir_list = dir(rootpath);
 len_dir  = length(dir_list);
+
+mip_out = join(rootpath, 'mip');
+mkdir(mip_out);
 
 % first two entries are "." and ".." so let's ignore it.
 for dirIdx = 3:len_dir
@@ -14,7 +18,7 @@ for dirIdx = 3:len_dir
         if(endsWith(file_or_folder, '.tif'))
             % is a tif file, so call max_projection
             fprintf("tif file: %s\n", file_or_folder);
-            mip_zprojection(file_or_folder);
+            mip_zprojection(file_or_folder, 'mip');
         else
             % any other file
         end
@@ -22,7 +26,7 @@ for dirIdx = 3:len_dir
 end
 end
 
-function mip_zprojection(filename)
+function mip_zprojection(filename, out)
 info            = imfinfo(filename);
 frames          = length(info);
 width           = info.Width;
@@ -30,7 +34,7 @@ height          = info.Height;
 tiff_link       = Tiff(filename,'r');
 no_of_channels  = info.SamplesPerPixel;
 
-if (no_of_channels > 1)
+if (no_of_channels == 3)
     M           = uint8(zeros(height, width, no_of_channels, frames));
     for slice = 1:frames
         tiff_link.setDirectory(slice);
@@ -38,7 +42,8 @@ if (no_of_channels > 1)
     end
     N               = M(:,:,3,:); % NP channel
     Max_N           = max(N, [], 4);
-else
+elseif (no_of_channels == 1)
+    fprintf("Channel 1\n");
     M           = uint8(zeros(height, width, frames));
     for slice = 1:frames
         tiff_link.setDirectory(slice);
@@ -46,10 +51,12 @@ else
     end
     N               = M(:,:,:); % NP channel
     Max_N           = max(N, [], 3);
+else
+    % nothing
 end
-
 [filepath, name, ext] = fileparts(filename);
-out_file = [filepath '\MAX_' name ext];
+mip_out = join(filepath, out);
+out_file = [mip_out '\' name ext];
 imwrite(Max_N, out_file);
 end
 
