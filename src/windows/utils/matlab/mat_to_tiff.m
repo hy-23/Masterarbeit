@@ -39,6 +39,9 @@ cel_var = struct2cell(mat_var);
 a = uint8(cel_var{1} * 255);
 [~, ~, z] = size(a);
 [~, name, ~] = fileparts(filename);
+pfx = 'moved_';
+[~, c] = size(pfx);
+name = name(1, c+1:end);
 for i = 1 : z
     imwrite(a(:,:,i), [tifout '\' name '.tif'], "WriteMode", "append");
 end

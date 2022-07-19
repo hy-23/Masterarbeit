@@ -71,6 +71,7 @@ for f in files:
     zip_file_path = os.path.join(args.file_path, f) # e.g., f = brain0.zip
     tar_file_path = os.path.join(args.file_path, f[:-4]) # e.g., f[:-4] = brain0
     with zipfile.ZipFile(zip_file_path, 'r') as zip_ref:
-        zip_ref.extractall(tar_file_path)
+        zip_ref.extractall(args.file_path)
+        #zip_ref.extractall(tar_file_path) # if you need a specific destination
 
 
