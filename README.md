@@ -95,7 +95,7 @@ Both the registrations need to happen on the scaled-np-channel images to compare
         D:\Harsha\repo\Masterarbeit\voxelmorph\scripts\tf\register.py --moving I:\masterarbeit_dataset\data\npz\np_brain3_scaled.npz --fixed I:\masterarbeit_dataset\atlas\np_atlas_scaled.npz --moved I:\tensorflow_out\out\moved.npz --model I:\tensorflow_out\model\0223.h5 --gpu 0
         ```
 - #### Larvalign registration:
-    - **Step1: Use the files available in `scaled-np-channel\` directory to perform nonlinear registration.
+    - **Step1: Use the files available in `scaled-np-channel\` directory to perform nonlinear registration.**
         1. Use the `voxelmorph_nonlinear` branch in the "larvalign" repository to perform an affine + nonlinear registration.
         2. In the following directory, "I:\masterarbeit_dataset\data", you must find a text file named "larvalign_list.txt".
             - This file contains a list with the full paths of the images that need to be nonlinear registered in the atlas.
