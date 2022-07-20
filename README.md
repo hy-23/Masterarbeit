@@ -56,51 +56,105 @@ Master thesis repository of Harsha Yogeshappa, RWTH Aachen University.
 ```
 
 ## Get the pipeline running.
+
+### 1. Perform affine registration [mandatory requirement for Voxelmorph network]
 - **Step1: Perform affine registration using `larvalign_affine` branch on git.**
     1. Use the `larvalign_affine` branch in the "larvalign" repository to perform an affine registration.
     2. In the root directory of "larvalign" repository, you should find a text file named "affine_list.txt".
         - This file contains a list with the full paths of the images that need to be affine registered in the atlas.
-        - The result is stored as a zip file in the <output directory>/RegisteredScans/TIFF/
-        - Use the python script, `extract-zip.py`, available in "masterarbeit" repository ('D:\Harsha\repo\Masterarbeit\src\windows\utils\py') to extract zip files to folders.
-- **Step2: Perform auto scaling to required dimensions using `callAutoScaleImages.m`**
-    1. Once the zip files are extracted and folders are available, use the matlab script `callAutoScaleImages.m` to generate macro for Fiji to output a scaled version of the affine aligned tiff images.
-- **Step3: Voxelmorph need npz files.**
-    1. Use the python script, `create-npz.py`, available in "masterarbeit" repository ('D:\Harsha\repo\Masterarbeit\src\windows\utils\py') to obtain npz files from the scaled tif files.
-    2. **Note:** 
-        - It is scaled tif files that we are interested in. So, we need to convert these scaled tif files to npz.
+        - The result is stored as a zip file in the RegisteredScans/TIFF/
+- **Step2: Unzip the files using matlab script `unzip_larvalign_output.m`**
+    1. Contents will be directly extracted to the root directory (a new folder won't be created).
+
+### 2. Perform scaling on all the images to get a uniform size.
+- **Step1: Auto scaling to required dimensions using `callAutoScaleImages.m`**
+    1. Once the zip files are extracted and tif files are available, use the matlab script `callAutoScaleImages.m` to generate macro for Fiji to output a scaled np channel only of the affine aligned tiff images.
+    2. `callAutoScaleImages.m` accepts the path of the tif files only and it will internally read all the files and passes it to 'autoScaleImages.m'
+
+### 3. Perform Registration.
+Both the registrations need to happen on the scaled-np-channel images to compare the results.
+- #### Voxelmorph registration:
+    - **Step1: Voxelmorph need npz files as input: Use the files available in `scaled-np-channel\`.**
+        1. Use the python script, `create-npz.py`, available in "masterarbeit" repository ('D:\Harsha\repo\Masterarbeit\src\windows\utils\py') to obtain npz files from the scaled tif files.
+        2. **Note:** 
         - The values are scaled down between 0.0 and 1.0 as per voxelmorph's requirement.
-- **Step4: Once all the npz files are available, prepare a list with the full paths of the images.**
-    1. Store the list in the following directory as '/home/students/yogeshappa/repo/Masterarbeit/src/linux/list.txt'
-- **Step5: Train the voxelmorph network using the below command.**
-    ```py
-    /home/students/yogeshappa/miniconda3/bin/python3 /home/students/yogeshappa/repo/Masterarbeit/voxelmorph/scripts/tf/train.py --img-list /home/students/yogeshappa/repo/Masterarbeit/src/linux/list.txt --atlas /home/students/yogeshappa/repo/Masterarbeit/dataset/atlas/np_atlas_scaled.npz --model-dir /work/scratch/yogeshappa/tensorflow_out/model --epochs 500 --steps-per-epoch 66
-    # steps_per_epoch = len(training_data) / batch_size.
-    # len(training_data) = 66.
+    - **Step2: Once all the npz files are available, prepare a list with the full paths of the images.**
+        1. Store the list in the following directory as '/home/students/yogeshappa/repo/Masterarbeit/src/linux/list.txt' to run on cluster.
+        2. Store the list in the following directory as '/home/students/yogeshappa/repo/Masterarbeit/src/windows/list.txt' to run locally on windows.
+    - **Step3: Train the voxelmorph network using the below command.**
+        ```py
+        /home/students/yogeshappa/miniconda3/bin/python3 /home/students/yogeshappa/repo/Masterarbeit/voxelmorph/scripts/tf/train.py --img-list /home/students/yogeshappa/repo/Masterarbeit/src/linux/list.txt --atlas /home/students/yogeshappa/repo/Masterarbeit/dataset/atlas/np_atlas_scaled.npz --model-dir /work/scratch/yogeshappa/masterarbeit_out/model --epochs 500 --steps-per-epoch 66
+        # steps_per_epoch = len(training_data) / batch_size.
+        # len(training_data) = 66.
+        ```
+    - **Step4: Perform nonlinear registration using trained model weights.**
+        1. Use the python script, `register_all.py`, available in "masterarbeit" repository ('D:\Harsha\repo\Masterarbeit\src\windows\utils\py') to extract zip files to folders to register all the images.
+        2. In the following directory, "I:\masterarbeit_dataset\data", you must find a text file named "voxelmorph_list.txt". Use this to tell `register_all.py` to give the list with the full paths of the images that needs to be aligned.
+        3. In any case, if you need to perform single prediction then use the below command.
+        ```py
+        D:\Harsha\repo\Masterarbeit\voxelmorph\scripts\tf\register.py --moving I:\masterarbeit_dataset\data\npz\np_brain3_scaled.npz --fixed I:\masterarbeit_dataset\atlas\np_atlas_scaled.npz --moved I:\tensorflow_out\out\moved.npz --model I:\tensorflow_out\model\0223.h5 --gpu 0
+        ```
+- #### Larvalign registration:
+    - **Step1: Use the files available in `scaled-np-channel\` directory to perform nonlinear registration.
+        1. Use the `voxelmorph_nonlinear` branch in the "larvalign" repository to perform an affine + nonlinear registration.
+        2. In the following directory, "I:\masterarbeit_dataset\data", you must find a text file named "larvalign_list.txt".
+            - This file contains a list with the full paths of the images that need to be nonlinear registered in the atlas.
+            - The result is stored as a zip file in the /RegisteredScans/TIFF/
+        3. **Note:** Though the input is 1 channel (np channel), output still composes of 3 channels: np-channel, nt-channel(empty), and ge-channel(empty).
+    - **Step2: Unzip the files using matlab script `unzip_larvalign_output.m`**
+        1. Contents will be directly extracted to the root directory (a new folder won't be created).
+            
+### 4. Evaluate Registration Results.
+- #### Larvalign registration:
+    - **Step1: Convert 3 channel tif files to 1 channel tif file using matlab script `call_splitChannels_and_saveNP.m`**
+        1. Generates macro for Fiji tool.
+            - After running Fiji, the result is stored in the `./np-channel/ directory`, relative to tif files.
+    - **Step2: Generate MIP out of these np-channel only tif files.**
+        1. Use matlab script, `traverse_and_find_tif.m`, to generate mip files.
+            - The result is stored in the `./np-channel/ directory`, relative to the tif files.
     ```
-    1. Once the training is complete, save the model weights to later use it for prediction.
-- **Step6: Perform nonlinear registration using "larvalign" using `voxelmorph_nonlinear` branch on git.**
-    1. Use the `voxelmorph_nonlinear` branch in the "larvalign" repository to perform an affine + nonlinear registration.
-    2. In the following directory, "I:\masterarbeit_dataset\data", you must find a text file named "larvalign_list.txt".
-        - This file contains a list with the full paths of the images that need to be nonlinear registered in the atlas.
-        - The result is stored as a zip file in the <output directory>/RegisteredScans/TIFF/
-        - Use the python script, `extract-zip.py`, available in "masterarbeit" repository ('D:\Harsha\repo\Masterarbeit\src\windows\utils\py') to extract zip files to folders.
-- **Step7: Perform nonlinear registration using trained model weights.**
-    1. Use the python script, `register_all.py`, available in "masterarbeit" repository ('D:\Harsha\repo\Masterarbeit\src\windows\utils\py') to extract zip files to folders to register all the images.
-    2. In the following directory, "I:\masterarbeit_dataset\data", you must find a text file named "voxelmorph_list.txt". Use this to tell `register_all.py` to give the list with the full paths of the images that needs to be aligned.
-    3. In any case, if you need to perform single prediction then use the below command.
-    ```py
-    D:\Harsha\repo\Masterarbeit\voxelmorph\scripts\tf\register.py --moving I:\masterarbeit_dataset\data\npz\np_brain3_scaled.npz --fixed I:\masterarbeit_dataset\atlas\np_atlas_scaled.npz --moved I:\tensorflow_out\out\moved.npz --model I:\tensorflow_out\model\0223.h5 --gpu 0
+    ───lrv_registered
+       └───zip
+           │   np_brain0_scaled.tif.zip
+           │
+           └───tiff
+               │   np_brain0_scaled.tif
+               │
+               └───np-channel
+                   │   np_brain0_scaled.tif
+                   │
+                   └───mip
+                           np_brain0_scaled.tif
     ```
-- **Step8: Voxelmorph provides npz files as output.**
-    1. Use the python script, `convert-npz-to-mat-all.py`, available in "masterarbeit" repository ('D:\Harsha\repo\Masterarbeit\src\windows\utils\py') to convert all npz files into mat files.
-        - The python script expects the path of the file where all npz files are present not a list like other scripts.
-        - The result is stored in the same directory.
-    2. Use matlab script, `mat_to_tiff.m`, to convert all .mat variables into a .tif file.
-- **Step9: Maximum Intensity Projection for tif files**
-    1. For visual evaluation, you need mip files.
-    2. Use the matlab script, `traverse_and_find_tif.m`, that recursively traverses the folders, finds tif files and generates mip.
-        - This works for 3 channels and 1 channel tiff images.
-- **Step10: Visual Evaluation**
-    1. Use the matlab script, `visallyEvaluate.m`, to plot fixed image, moving image, registered image, and the overlap of fixed_vs_registered image.
-    2. Plot contain results for both Voxelmorph and Larvalign.
-        ![alt text](https://github.com/hy-23/Masterarbeit/blob/main/presentations/resources/MAX_np_brain1_scaled.png?raw=true)
+- #### Voxelmorph registration:
+    - **Step1: Voxelmorph output npz files: Convert npz files to mat files.**
+        1. Use the python script, `convert-npz-to-mat-all.py`, available in "masterarbeit" repository ('D:\Harsha\repo\Masterarbeit\src\windows\utils\py') to convert all npz files into mat files.
+            - The python script expects the path of the file where all npz files are present not a list like other scripts.
+            - The result is stored in the `./mat/ directory`, relative to the npz files.
+    - **Step2: Convert matfiles to tiff images.**
+        1. Use matlab script, `mat_to_tiff.m`, to convert all .mat variables into a .tif file image.
+            - The result is stored in the `./tif/ directory`, relative to the mat files.
+    - **Step3: Fix the image properties of these tiff images.**
+    These tif files that are created using the matlab script has resolution set in 'pixels' instead of 'mm'. For error measure, it is critical that the physical properties of the images are the same as of atlas's and larvalign_registered images'.
+        1. Use matlab script, `call_splitChannels_and_saveNP.m`, to generate a macro for Fiji tool that sets the right properties.
+            - The result is stored in the './np-channel/ directory', relative to the tif files.
+    - **Step4: Generate MIP out of these np-channel only tif files.**
+        1. Use matlab script, `traverse_and_find_tif.m`, to generate mip files.
+            - The result is stored in the `./np-channel/ directory`, relative to the tif files.
+    ```
+    ───vxm_registered
+       └───npz
+           │   moved_np_brain0_scaled.npz
+           │
+           └───mat
+               │   moved_np_brain0_scaled.mat
+               │
+               └───tiff
+                   │   np_brain0_scaled.tif
+                   │
+                   └───np-channel
+                       │   np_brain0_scaled.tif
+                       │
+                       └───mip
+                               np_brain0_scaled.tif
+    ```
