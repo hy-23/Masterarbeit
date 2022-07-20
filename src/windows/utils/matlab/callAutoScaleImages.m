@@ -5,27 +5,34 @@
 %% Author: Harsha Yogeshappa
 %%
 
-function callAutoScaleImages(width, height, slices, ...
-                                     pixelwidth, pixelheight, voxeldepth)
+function callAutoScaleImages(tif_filepath, width, height, slices, ...
+                             pixelwidth, pixelheight, voxeldepth)
+warning('off','MATLAB:MKDIR:DirectoryExists');
 
 % pixelwidth = 0.4566360;
 % pixelheight = 0.4566360;
 % voxeldepth = 2.0000000;
 
-fileId = fopen('I:\masterarbeit_dataset\larvalign_data-affine_registered\DataSetRandomQual\list.txt', 'r');
-fileList = {};
-fileCount = 0;
-tline = fgetl(fileId);
+tif_filepath = convertStringsToChars(tif_filepath);
+scaled_np_out = join(tif_filepath, 'scaled-np-channel');
+mkdir(scaled_np_out);
 
-while ischar(tline)
-    % https://de.mathworks.com/matlabcentral/answers/87549-append-to-an-array
-    fileList = [fileList, tline];
-    fileCount = fileCount + 1;
-    tline = fgetl(fileId);
+dir_list = dir(tif_filepath);
+len_dir  = length(dir_list);
+
+% first two entries are "." and ".." so let's ignore it.
+for dirIdx = 3:len_dir
+    file_or_folder_name = dir_list(dirIdx).name;
+    file_or_folder_path = join(tif_filepath, file_or_folder_name);
+    if (isfile(file_or_folder_path))
+        if (endsWith(file_or_folder_name, '.tif'))
+            autoScaleImages(file_or_folder_path, width, height, slices, ...
+                            pixelwidth, pixelheight, voxeldepth);
+        end
+    end
+end
 end
 
-for i = 1 : fileCount
-    filename = fileList{i};
-    autoScaleImages(filename, width, height, slices, pixelwidth, pixelheight, voxeldepth);
-end
+function str3 = join(str1, str2)
+str3 = [str1 '\' str2];
 end
