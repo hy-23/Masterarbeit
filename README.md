@@ -104,7 +104,7 @@ Both the registrations need to happen on the scaled-np-channel images to compare
     - **Step2: Unzip the files using matlab script `unzip_larvalign_output.m`**
         1. Contents will be directly extracted to the root directory (a new folder won't be created).
             
-### 4. Evaluate Registration Results.
+### 4. Preperation for evaluating the registration results.
 - #### Larvalign registration:
     - **Step1: Convert 3 channel tif files to 1 channel tif file using matlab script `call_splitChannels_and_saveNP.m`**
         1. Generates macro for Fiji tool.
@@ -158,3 +158,5 @@ Both the registrations need to happen on the scaled-np-channel images to compare
                        └───mip
                                np_brain0_scaled.tif
     ```
+### 4. Evaluate registration results.
+Use the function `visuallyEvaluate.m` matlab script to plot and report the mattes mutual information metric.
