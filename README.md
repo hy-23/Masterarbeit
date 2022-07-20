@@ -160,3 +160,4 @@ Both the registrations need to happen on the scaled-np-channel images to compare
     ```
 ### 4. Evaluate registration results.
 Use the function `visuallyEvaluate.m` matlab script to plot and report the mattes mutual information metric.
+![MAX_np_brain4_scaled](https://user-images.githubusercontent.com/46209868/179960514-578eb76a-cd86-424d-bc88-475abbfa1141.png)
