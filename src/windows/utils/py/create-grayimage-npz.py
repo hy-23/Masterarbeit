@@ -22,16 +22,20 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--file-path', type=str, required=True, help='root directory that holds folders containing tif files.')
 args = parser.parse_args()
 
-src_file_path = args.file_path
-# list everything in the path; both directories and files.
-dirlist = os.listdir(src_file_path)
-  
-# list of tif files in the src_file_path
-tif_file = [tif for tif in dirlist if (os.path.isfile(os.path.join(src_file_path, tif)) and tif.endswith('.tif'))]
+dst_filepath = os.path.join(args.file_path, 'npz')
+os.mkdir(dst_filepath)
 
+# list everything in the path; both directories and files.
+dirlist = os.listdir(args.file_path)
+
+# Of all the directories and files, filter only files
+filelist = [file for file in dirlist if (os.path.isfile(os.path.join(args.file_path, file)))]
+
+tif_file = [tif for tif in filelist if (os.path.isfile(os.path.join(args.file_path, tif)) and tif.endswith('.tif'))]
 for file_idx in range(len(tif_file)):
-    src = os.path.join(src_file_path, tif_file[file_idx])
-    dst = src.replace('.tif', '.npz')
+    src = os.path.join(args.file_path, tif_file[file_idx])
+    dst_file = tif_file[file_idx].replace('.tif', '.npz')
+    dst = os.path.join(dst_filepath, dst_file)
     im = Image.open(src)
         
     # read tiff-file metadata

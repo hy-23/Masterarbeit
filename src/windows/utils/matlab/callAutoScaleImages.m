@@ -26,8 +26,10 @@ for dirIdx = 3:len_dir
     file_or_folder_path = join(tif_filepath, file_or_folder_name);
     if (isfile(file_or_folder_path))
         if (endsWith(file_or_folder_name, '.tif'))
-            autoScaleImages(file_or_folder_path, width, height, slices, ...
-                            pixelwidth, pixelheight, voxeldepth);
+            filename = file_or_folder_path;
+            autoScaleImages(filename, width, height, slices, ...
+                            pixelwidth, pixelheight, voxeldepth, ...
+                            scaled_np_out);
         end
     end
 end
