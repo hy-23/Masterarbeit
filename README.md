@@ -89,10 +89,13 @@ Both the registrations need to happen on the scaled-np-channel images to compare
         ```
     - **Step4: Perform nonlinear registration using trained model weights.**
         1. Use the python script, `register_all.py`, available in "masterarbeit" repository ('D:\Harsha\repo\Masterarbeit\src\windows\utils\py') to extract zip files to folders to register all the images.
-        2. In the following directory, "I:\masterarbeit_dataset\data", you must find a text file named "voxelmorph_list.txt". Use this to tell `register_all.py` to give the list with the full paths of the images that needs to be aligned.
+        2. In the following directory, "I:\masterarbeit_dataset\01.larvalign_data-affine_registered", you must find a text file named "Voxelmorph_list.txt". Use this to tell `register_all.py` to give the list with the full paths of the images that needs to be aligned.
+        ```py
+        python D:\Harsha\repo\Masterarbeit\src\windows\utils\py\register_all.py --file-list I:\masterarbeit_dataset\01.larvalign_data-affine_registered\Voxelmorph_list.txt --gpu 0 --fixed I:\masterarbeit_dataset\00.atlas\tif\npz\np_atlas_scaled.npz --model I:\masterarbeit_out\model\0300.h5 --out-path I:\masterarbeit_out\out\all_registered
+        ```
         3. In any case, if you need to perform single prediction then use the below command.
         ```py
-        D:\Harsha\repo\Masterarbeit\voxelmorph\scripts\tf\register.py --moving I:\masterarbeit_dataset\data\npz\np_brain3_scaled.npz --fixed I:\masterarbeit_dataset\atlas\np_atlas_scaled.npz --moved I:\tensorflow_out\out\moved.npz --model I:\tensorflow_out\model\0223.h5 --gpu 0
+        D:\Harsha\repo\Masterarbeit\voxelmorph\scripts\tf\register.py --moving I:\masterarbeit_dataset\01.larvalign_data-affine_registered\tiff\scaled-np-channel\npz\np_brain3_scaled.npz --fixed I:\masterarbeit_dataset\00.atlas\tif\npz\np_atlas_scaled.npz --moved I:\tensorflow_out\out\moved.npz --model I:\tensorflow_out\model\0223.h5 --gpu 0
         ```
 - #### Larvalign registration:
     - **Step1: Use the files available in `scaled-np-channel\` directory to perform nonlinear registration.**
