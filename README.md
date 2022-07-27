@@ -91,7 +91,7 @@ Both the registrations need to happen on the scaled-np-channel images to compare
         1. Use the python script, `register_all.py`, available in "masterarbeit" repository ('D:\Harsha\repo\Masterarbeit\src\windows\utils\py') to extract zip files to folders to register all the images.
         2. In the following directory, "I:\masterarbeit_dataset\01.larvalign_data-affine_registered", you must find a text file named "Voxelmorph_list.txt". Use this to tell `register_all.py` to give the list with the full paths of the images that needs to be aligned.
         ```py
-        python D:\Harsha\repo\Masterarbeit\src\windows\utils\py\register_all.py --file-list I:\masterarbeit_dataset\01.larvalign_data-affine_registered\Voxelmorph_list.txt --gpu 0 --fixed I:\masterarbeit_dataset\00.atlas\tif\npz\np_atlas_scaled.npz --model I:\masterarbeit_out\model\0300.h5 --out-path I:\masterarbeit_out\out\all_registered
+        python D:\Harsha\repo\Masterarbeit\src\windows\utils\py\register_all.py --file-list I:\00.masterarbeit_dataset\04.Affine_Registered\01.larvalign_data-Affine_Registered\Voxelmorph_list.txt --gpu 0 --fixed I:\00.masterarbeit_dataset\00.atlas\tif\npz\np_atlas_scaled.npz --model I:\03.masterarbeit_out\model_ncc\0300.h5 --out-path I:\03.masterarbeit_out\out_ncc\all_registered
         ```
         3. In any case, if you need to perform single prediction then use the below command.
         ```py
