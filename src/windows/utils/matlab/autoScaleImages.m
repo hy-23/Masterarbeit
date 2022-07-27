@@ -4,68 +4,72 @@
 %% Author: Harsha Yogeshappa
 %%
 
-function autoScaleImages(filename, width, height, slices, ...
-                         pixel_width, pixel_height, voxel_depth, ...
-                         scaled_np_out)
+function [status,cmdout] = autoScaleImages(filename, width, ...
+                                           height, slices, ...
+                                           pixel_width, pixel_height, ...
+                                           voxel_depth, scaled_np_out, ...
+                                           findNPChannel)
 
 % variables
 
 [filepath, name, ext] = fileparts(filename);
 scanID = [name ext];
 
+if (findNPChannel)
+    rootdir = 'I:\00.masterarbeit_dataset\02.Additional_Data_Larvalign-original';
+    filelist = dir(fullfile(rootdir, ['**\' name '.lsm']));
+    LSM_PFN = [filelist.folder '\' filelist.name];
+
+    [~, scaninf, ~] = lsminfo(LSM_PFN);
+    index = find([scaninf.WAVELENGTH{:}] == 633);
+    tmp_a = [1,2,3];
+    tmp_b = tmp_a(tmp_a~=index);
+
+    LSMchannelNP = int2str(index);
+    LSMchannelNT = int2str(tmp_b(1));
+    LSMchannelGE = int2str(tmp_b(2));
+else
+    LSMchannelNP = '3';
+    LSMchannelNT = '2';
+    LSMchannelGE = '1';
+end
+
+stmt_close = 'close();';
+
+stmt0 = 'run("ImageJ2...", "scijavaio=true");';
 stmt1 = ['open("' filepath '\' scanID '");'];
 stmt2 = 'run("Split Channels");';
-stmt3 = ['selectWindow("C2-' scanID '");'];
-stmt4 = 'close();';
-stmt5 = ['selectWindow("C1-' scanID '");'];
-stmt6 = 'close();';
-stmt7 = ['selectWindow("C3-' scanID '");'];
-stmt8 = ['run("Scale...", "x=- y=- z=- width=' int2str(width) ' height=' int2str(height) ' depth=' int2str(slices) ' interpolation=Bicubic average process create title=np_' name '_scaled.tif");'];
-stmt9 = ['run("Properties...", "channels=1 slices=' int2str(slices) ' frames=1 unit=mm pixel_width=' num2str(pixel_width) ' pixel_height=' num2str(pixel_height) ' voxel_depth=' num2str(voxel_depth) '");'];
+stmt3 = ['selectWindow("C' LSMchannelNT '-' scanID '");'];
+stmt4 = ['selectWindow("C' LSMchannelGE '-' scanID '");'];
+stmt5 = ['selectWindow("C' LSMchannelNP '-' scanID '");'];
+stmt6 = ['run("Scale...", "x=- y=- z=- width=' int2str(width) ' height=' int2str(height) ' depth=' int2str(slices) ' interpolation=Bicubic average process create title=np_C' LSMchannelNP '-' name '_scaled.tif");'];
+stmt7 = ['run("Properties...", "channels=1 slices=' int2str(slices) ' frames=1 unit=mm pixel_width=' num2str(pixel_width) ' pixel_height=' num2str(pixel_height) ' voxel_depth=' num2str(voxel_depth) '");'];
+stmt8 = ['run("Save", "save=' scaled_np_out '\' 'np_C' LSMchannelNP '-' name '_scaled.tif");'];
+stmt9 = ['selectWindow("C' LSMchannelNP '-' scanID '");'];
 
-stmt10 = ['run("Save", "save=' scaled_np_out '\' 'np_' name '_scaled.tif");'];
-stmt11 = 'close();';
-stmt12 = ['selectWindow("C3-' scanID '");'];
-stmt13 = 'close();';
+%rootpath = 'D:\Harsha\Repository\larvalign\source\larvalign';
+% Fiji in the root path does not work. I don't know why, but the updated FijiExe works.
+FijiExe = '"D:\fiji-win64\Fiji.app\ImageJ-win64.exe" ';
 
-%% For some reason, calling these lines from matlab script on Fiji does not work.
-%% So, the lines are printed and then saved on Fiji.
-
-%{
-rootpath = 'D:\Harsha\Repository\larvalign\source\larvalign';
-FijiExe = ['"' rootpath '\resources\exe\Fiji\ImageJ-win64.exe" ' ];
-
-fileID = fopen([sepStr([filepath '\']) name '_lsm2mhd.txt'],'w');
+fileID = fopen([sepStr([filepath '\']) name '_lsm2mhd.ijm'],'w');
+fprintf(fileID,'%s\n',sepStr(stmt0));
 fprintf(fileID,'%s\n',sepStr(stmt1));
 fprintf(fileID,'%s\n',sepStr(stmt2));
 fprintf(fileID,'%s\n',sepStr(stmt3));
+fprintf(fileID,'%s\n',sepStr(stmt_close));
 fprintf(fileID,'%s\n',sepStr(stmt4));
+fprintf(fileID,'%s\n',sepStr(stmt_close));
 fprintf(fileID,'%s\n',sepStr(stmt5));
 fprintf(fileID,'%s\n',sepStr(stmt6));
+fprintf(fileID,'%s\n','wait(5);');
 fprintf(fileID,'%s\n',sepStr(stmt7));
+fprintf(fileID,'%s\n','wait(5);');
 fprintf(fileID,'%s\n',sepStr(stmt8));
+fprintf(fileID,'%s\n','wait(5);');
+fprintf(fileID,'%s\n',sepStr(stmt_close));
 fprintf(fileID,'%s\n',sepStr(stmt9));
-fprintf(fileID,'%s\n',sepStr(stmt10));
-fprintf(fileID,'%s\n',sepStr(stmt11));
-fprintf(fileID,'%s\n',sepStr(stmt12));
-fprintf(fileID,'%s\n',sepStr(stmt13));
+fprintf(fileID,'%s\n',sepStr(stmt_close));
 fclose(fileID);
 
-[status,cmdout] = system([FijiExe ' --headless -macro "' sepStr([filepath '\']) name '_lsm2mhd.txt"']);
-%}
-
-fprintf('%s\n',sepStr(stmt1));
-fprintf('%s\n',sepStr(stmt2));
-fprintf('%s\n',sepStr(stmt3));
-fprintf('%s\n',sepStr(stmt4));
-fprintf('%s\n',sepStr(stmt5));
-fprintf('%s\n',sepStr(stmt6));
-fprintf('%s\n',sepStr(stmt7));
-fprintf('%s\n',sepStr(stmt8));
-fprintf('%s\n',sepStr(stmt9));
-fprintf('%s\n',sepStr(stmt10));
-fprintf('%s\n',sepStr(stmt11));
-fprintf('%s\n',sepStr(stmt12));
-fprintf('%s\n',sepStr(stmt13));
-fprintf('\n');
+[status,cmdout] = system([FijiExe ' --headless -macro "' sepStr([filepath '\']) name '_lsm2mhd.ijm"']);
 end
