@@ -6,7 +6,7 @@
 %%
 
 function callAutoScaleImages(tif_filepath, width, height, slices, ...
-                             pixelwidth, pixelheight, voxeldepth)
+                             pixelwidth, pixelheight, voxeldepth, findNPChannel)
 warning('off','MATLAB:MKDIR:DirectoryExists');
 
 % pixelwidth = 0.4566360;
@@ -27,9 +27,10 @@ for dirIdx = 3:len_dir
     if (isfile(file_or_folder_path))
         if (endsWith(file_or_folder_name, '.tif'))
             filename = file_or_folder_path;
+            fprintf("filename: %s\n", filename);
             autoScaleImages(filename, width, height, slices, ...
                             pixelwidth, pixelheight, voxeldepth, ...
-                            scaled_np_out);
+                            scaled_np_out, findNPChannel);
         end
     end
 end
