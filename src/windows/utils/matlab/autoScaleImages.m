@@ -11,7 +11,7 @@ function [status,cmdout] = autoScaleImages(filename, width, ...
                                            findNPChannel)
 
 % variables
-
+tbd_filepath = 'D:\Harsha\tbd';
 [filepath, name, ext] = fileparts(filename);
 scanID = [name ext];
 
@@ -51,7 +51,7 @@ stmt9 = ['selectWindow("C' LSMchannelNP '-' scanID '");'];
 % Fiji in the root path does not work. I don't know why, but the updated FijiExe works.
 FijiExe = '"D:\fiji-win64\Fiji.app\ImageJ-win64.exe" ';
 
-fileID = fopen([sepStr([filepath '\']) name '_lsm2mhd.ijm'],'w');
+fileID = fopen([sepStr([tbd_filepath '\']) name '_lsm2mhd.ijm'],'w');
 fprintf(fileID,'%s\n',sepStr(stmt0));
 fprintf(fileID,'%s\n',sepStr(stmt1));
 fprintf(fileID,'%s\n',sepStr(stmt2));
@@ -61,15 +61,13 @@ fprintf(fileID,'%s\n',sepStr(stmt4));
 fprintf(fileID,'%s\n',sepStr(stmt_close));
 fprintf(fileID,'%s\n',sepStr(stmt5));
 fprintf(fileID,'%s\n',sepStr(stmt6));
-fprintf(fileID,'%s\n','wait(5);');
 fprintf(fileID,'%s\n',sepStr(stmt7));
-fprintf(fileID,'%s\n','wait(5);');
 fprintf(fileID,'%s\n',sepStr(stmt8));
-fprintf(fileID,'%s\n','wait(5);');
 fprintf(fileID,'%s\n',sepStr(stmt_close));
 fprintf(fileID,'%s\n',sepStr(stmt9));
 fprintf(fileID,'%s\n',sepStr(stmt_close));
 fclose(fileID);
 
-[status,cmdout] = system([FijiExe ' --headless -macro "' sepStr([filepath '\']) name '_lsm2mhd.ijm"']);
+[status,cmdout] = system([FijiExe ' --headless -macro "' sepStr([tbd_filepath '\']) name '_lsm2mhd.ijm"']);
+[~,~] = system([ 'del  /Q  "' [tbd_filepath '\'] name '_lsm2mhd.ijm"']); 
 end
