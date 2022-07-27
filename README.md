@@ -139,7 +139,7 @@ Both the registrations need to happen on the scaled-np-channel images to compare
             - The result is stored in the `./tif/ directory`, relative to the mat files.
     - **Step3: Fix the image properties of these tiff images.**
     These tif files that are created using the matlab script has resolution set in 'pixels' instead of 'mm'. For error measure, it is critical that the physical properties of the images are the same as of atlas's and larvalign_registered images'.
-        1. Use matlab script, `call_splitChannels_and_saveNP.m`, to generate a macro for Fiji tool that sets the right properties.
+        1. Use matlab script, `callFix_tif_properties.m`, to generate a macro for Fiji tool that sets the right properties.
             - The result is stored in the './np-channel/ directory', relative to the tif files.
     - **Step4: Generate MIP out of these np-channel only tif files.**
         1. Use matlab script, `traverse_and_find_tif.m`, to generate mip files.
