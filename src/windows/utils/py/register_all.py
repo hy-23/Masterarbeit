@@ -50,12 +50,15 @@ for i in range(len(predict_files)):
     t1 = time.time()
     print('Harsha, time for registration is {}'.format(t1-t0))
     
+    head_tail = os.path.split(predict_files[i])
+    
     # save warp
     if args.warp:
-        vxm.py.utils.save_volfile(warp.squeeze(), args.warp, fixed_affine)
+        warp_file = os.path.join(args.out_path, 'warped_'+head_tail[-1])
+        vxm.py.utils.save_volfile(warp.squeeze(), warp_file, fixed_affine)
         print('Harsha, warp is getting saved.')
     
-    head_tail = os.path.split(predict_files[i])
+    
     moved_file = os.path.join(args.out_path, 'moved_'+head_tail[-1])
     print()
     print("Harsha, I predicted {}".format(head_tail[-1]))
