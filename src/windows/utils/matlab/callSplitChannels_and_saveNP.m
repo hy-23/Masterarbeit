@@ -1,4 +1,4 @@
-function call_splitChannels_and_saveNP(tif_filepath)
+function callSplitChannels_and_saveNP(tif_filepath)
 warning('off','MATLAB:MKDIR:DirectoryExists');
 
 tif_filepath = convertStringsToChars(tif_filepath);

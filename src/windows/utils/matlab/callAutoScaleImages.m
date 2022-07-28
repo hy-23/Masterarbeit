@@ -27,7 +27,7 @@ for dirIdx = 3:len_dir
     if (isfile(file_or_folder_path))
         if (endsWith(file_or_folder_name, '.tif'))
             filename = file_or_folder_path;
-            fprintf("filename: %s\n", filename);
+            fprintf("%s: %d\n", file_or_folder_name, dirIdx);
             autoScaleImages(filename, width, height, slices, ...
                             pixelwidth, pixelheight, voxeldepth, ...
                             scaled_np_out, findNPChannel);
